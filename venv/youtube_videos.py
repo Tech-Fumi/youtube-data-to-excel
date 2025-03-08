@@ -4,6 +4,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import pandas as pd
+import os
+from dotenv import load_dotenv
+from googleapiclient.discovery import build
 
 
 
@@ -43,7 +46,8 @@ def load_credentials(filename="token.pickle"):
 
 
 
-
+# .envファイルから環境変数をロード
+load_dotenv()
 
 # YouTube Data APIで動画の基本情報を取得
 def get_video_data(youtube):
@@ -52,7 +56,7 @@ def get_video_data(youtube):
     while True:
         request = youtube.search().list(
             part='id,snippet',
-            channelId='UCdMMQ-rcheXvtKWsuGRP9tg',  # あなたのチャンネルID
+            channelId= os.getenv("CHANNEL_ID"), # あなたのチャンネルID
             maxResults=50,
             pageToken=next_page_token
         )
